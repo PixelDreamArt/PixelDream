@@ -1,0 +1,75 @@
+/// Global
+///
+///
+@import url("https://fonts.googleapis.com/css?family=Montserrat");
+
+html {
+  font-size: 10px;
+}
+body {
+  font-family: "Montserrat" !important;
+  background-color: #cf8787 !important;
+}
+
+/// Colors
+///
+///
+
+$primary-color: #a3ea71;
+$secondary-color: #fa64b5;
+$text-color: #333333;
+
+/// Mobile
+///
+///
+
+h1 {
+  font-size: 32px;
+  margin-bottom: 45px;
+  color: $primary-color;
+  //   letter-spacing: 6%;
+}
+
+h2 {
+  font-size: 24px;
+  margin-bottom: 30px;
+  color: $text-color;
+  //   letter-spacing: 4%;
+}
+
+h3 {
+  font-size: 18px;
+  margin-bottom: 25px;
+  color: $text-color;
+}
+
+p {
+  font-size: 14px;
+  line-height: 22px;
+  margin-bottom: 20px;
+  color: $text-color;
+}
+.title {
+  position: relative;
+  &::before {
+    content: "";
+    position: absolute;
+    height: 100%;
+    width: 4px;
+    left: -10px;
+    background-color: $secondary-color;
+  }
+  &__header {
+    font-size: 24px;
+    margin-bottom: 10px;
+    color: $primary-color;
+  }
+  &__subtitl {
+    font-size: 18px;
+    margin-bottom: 30px;
+  }
+}
+
+/// Desktop
+///
+///
