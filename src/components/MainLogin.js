@@ -4,6 +4,7 @@ import LoginForm from "./LoginForm";
 
 import { useState } from "react";
 
+import "../styles/main.scss";
 const MainLogin = () => {
   const [showLoginForm, setShowLoginForm] = useState(false);
 

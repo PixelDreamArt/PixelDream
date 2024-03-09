@@ -15,7 +15,7 @@ const Nav = () => {
               <i className="bi bi-house-door-fill"></i>
             </li>
           </Link>
-          <Link href="/">
+          <Link href="/home">
             <li className="nav__items-link">
               <i className="bi bi-basket3-fill"></i>
             </li>

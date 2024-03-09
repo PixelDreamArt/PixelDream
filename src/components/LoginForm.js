@@ -1,63 +1,61 @@
-import React, { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import {
-  setEmail,
-  setPassword,
-  selectEmail,
-  selectPassword,
-} from "../redux/slices/userSlice";
-const LoginForm = () => {
-  const email = useSelector(selectEmail);
-  const password = useSelector(selectPassword);
-  const dispatch = useDispatch();
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { useAppSelector } from "@/lib/hooks";
+import { setEmail } from "../lib/features/user/userSlice"; // Import the setEmail function
 
+import "../styles/main.scss";
+
+const LoginForm = () => {
+  const dispatch = useDispatch();
+  const email = useAppSelector((state) => state.user.email); // Access email from Redux state
+
+  // Define state for form inputs
   const [data, setData] = useState({
     email: "",
     password: "",
   });
 
+  // Update form input values
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    if (name === "email") {
-      dispatch(setEmail(value));
-    } else if (name === "password") {
-      dispatch(setPassword(value));
-    }
-    // setData({ ...data, [e.target.name]: e.target.value });
+    setData({ ...data, [name]: value });
   };
+
+  // Handle form submission
   const handleSubmit = (e) => {
-    console.log(email);
-    console.log(password);
     e.preventDefault();
+    // Dispatch action to update email in Redux store
+    dispatch(setEmail(data.email));
   };
 
   return (
     <form onSubmit={handleSubmit}>
+      <h1>{email}</h1>
       <div className="section text-center">
         <h4 className="mb-4 pb-3">Log In</h4>
         <div className="form-group">
           <input
             onChange={handleInputChange}
-            defaultValue={data.email}
+            value={data.email}
             type="email"
             name="email"
             className="form-style"
             placeholder="Email"
           />
-          <i className="input-icon uil uil-at"></i>
         </div>
         <div className="form-group mt-2">
           <input
             onChange={handleInputChange}
-            defaultValue={data.password}
+            value={data.password}
             type="password"
             name="password"
             className="form-style"
             placeholder="Password"
           />
-          <i className="input-icon uil uil-lock-alt"></i>
         </div>
-        <a className="btn mt-4">Login</a>
+        <button type="submit" className="btn mt-4">
+          Login
+        </button>
         <p className="mb-0 mt-4 text-center">
           <a className="link">Forgot your password?</a>
         </p>
@@ -65,4 +63,5 @@ const LoginForm = () => {
     </form>
   );
 };
+
 export default LoginForm;

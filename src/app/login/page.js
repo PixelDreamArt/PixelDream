@@ -1,8 +1,11 @@
-// LoginPage.js
 import MainLogin from "../../components/MainLogin";
 
 const LoginPage = () => {
-  return <MainLogin />;
+  return (
+    <div className="login">
+      <MainLogin />;
+    </div>
+  );
 };
 
 export default LoginPage;

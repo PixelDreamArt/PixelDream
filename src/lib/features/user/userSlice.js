@@ -18,7 +18,4 @@ export const authSlice = createSlice({
 
 export const { setEmail, setPassword } = authSlice.actions;
 
-export const selectEmail = (state) => state.auth.email;
-export const selectPassword = (state) => state.auth.password;
-
 export default authSlice.reducer;

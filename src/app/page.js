@@ -1,7 +1,13 @@
-// import Nav from "../components/Nav";
+"use client";
+
+import Nav from "../components/Nav";
 
 import "../styles/main.scss";
 const Home = () => {
-  return <>{/* <Nav /> */}</>;
+  return (
+    <>
+      <Nav />
+    </>
+  );
 };
 export default Home;
