@@ -1,32 +1,32 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "@/lib/hooks";
-import { setEmail } from "../lib/features/user/userSlice"; // Import the setEmail function
+import { setEmail } from "../lib/features/user/userSlice";
 
 import "../styles/main.scss";
 
 const LoginForm = () => {
   const dispatch = useDispatch();
-  const email = useAppSelector((state) => state.user.email); // Access email from Redux state
+  const email = useAppSelector((state) => state.user.email);
 
-  // Define state for form inputs
   const [data, setData] = useState({
     email: "",
     password: "",
   });
 
-  // Update form input values
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setData({ ...data, [name]: value });
   };
 
-  // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Dispatch action to update email in Redux store
     dispatch(setEmail(data.email));
   };
+
+  useEffect(() => {
+    localStorage.setItem("email", JSON.stringify(email));
+  }, [email]);
 
   return (
     <form onSubmit={handleSubmit}>
