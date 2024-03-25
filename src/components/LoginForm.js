@@ -1,42 +1,71 @@
-import { useEffect, useState } from "react";
+import { useRef, useState, useEffect } from "react";
+
 import { useDispatch } from "react-redux";
-import { useAppSelector } from "@/lib/hooks";
-import { setEmail } from "../lib/features/user/userSlice";
+import { setCredentials } from "../lib/features/authorization/authSlice";
+import { useLoginMutation } from "../lib/features/authorization/authApiSlice";
 
 import "../styles/main.scss";
 
 const LoginForm = () => {
+  const userRef = useRef();
+  const errRef = useRef();
+  const [user, setUser] = useState("");
+  const [pwd, setPwd] = useState("");
+  const [errMsg, setErrMsg] = useState("");
+
+  const [login, { isLoading }] = useLoginMutation();
   const dispatch = useDispatch();
-  const email = useAppSelector((state) => state.user.email);
-
-  const [data, setData] = useState({
-    email: "",
-    password: "",
-  });
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setData({ ...data, [name]: value });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    dispatch(setEmail(data.email));
-  };
 
   useEffect(() => {
-    localStorage.setItem("email", JSON.stringify(email));
-  }, [email]);
+    // Sprawdzenie, czy userRef.current nie jest null
+    if (userRef.current) {
+      // Wywołanie metody focus na elemencie DOM
+      userRef.current.focus();
+    }
+  }, []);
+
+  useEffect(() => {
+    setErrMsg("");
+  }, [user, pwd]);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const userData = await login({ user, pwd }).unwrap();
+      dispatch(setCredentials({ ...userData, user }));
+      setUser("");
+      setPwd("");
+      navigate("/welcome");
+    } catch (err) {
+      if (!err?.originalStatus) {
+        // isLoading: true until timeout occurs
+        setErrMsg("No Server Response");
+      } else if (err.originalStatus === 400) {
+        setErrMsg("Missing Username or Password");
+      } else if (err.originalStatus === 401) {
+        setErrMsg("Unauthorized");
+      } else {
+        setErrMsg("Login Failed");
+      }
+      errRef.current.focus();
+    }
+  };
+
+  const handleUserInput = (e) => setUser(e.target.value);
+
+  const handlePwdInput = (e) => setPwd(e.target.value);
+  // }, [email]);
 
   return (
     <form onSubmit={handleSubmit}>
-      <h1>{email}</h1>
+      {/* <h1>{email}</h1> */}
       <div className="section text-center">
         <h4 className="mb-4 pb-3">Log In</h4>
         <div className="form-group">
           <input
-            onChange={handleInputChange}
-            value={data.email}
+            onChange={handleUserInput}
+            value={user}
             type="email"
             name="email"
             className="form-style"
@@ -45,8 +74,8 @@ const LoginForm = () => {
         </div>
         <div className="form-group mt-2">
           <input
-            onChange={handleInputChange}
-            value={data.password}
+            onChange={handlePwdInput}
+            value={pwd}
             type="password"
             name="password"
             className="form-style"

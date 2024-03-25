@@ -6,11 +6,13 @@ import {
 import { useSelector } from "react-redux";
 import authReducer from "./features/authorization/authSlice";
 import { apiSlice } from "../api/apiSlice";
+import {authSlice2} from './features/user/userSlice'
 const rootReducer = combineReducers(
   {
     // user: authReducer,
     [apiSlice.reducerPath]: apiSlice.reducer,
     auth: authReducer,
+    auth2: authSlice2
   },
   {
     middleware: (getDefaultMiddleware) =>
